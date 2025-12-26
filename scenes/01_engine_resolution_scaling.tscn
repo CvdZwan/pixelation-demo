@@ -1,0 +1,54 @@
+[gd_scene load_steps=8 format=3 uid="uid://jueq43pjebcg"]
+
+[ext_resource type="Shader" uid="uid://dfqwvrp44h58e" path="res://shaders/outline_effect.gdshader" id="1_6uqtj"]
+[ext_resource type="PackedScene" uid="uid://cfmxvu6nib1p2" path="res://3d/low_poly_mill.tscn" id="2_yvm2k"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_6uqtj"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_yvm2k"]
+sky_material = SubResource("ProceduralSkyMaterial_6uqtj")
+
+[sub_resource type="Environment" id="Environment_vp1m0"]
+background_mode = 2
+sky = SubResource("Sky_yvm2k")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fb6n6"]
+render_priority = 0
+shader = ExtResource("1_6uqtj")
+shader_parameter/shadows_enabled = true
+shader_parameter/highlights_enabled = true
+shader_parameter/shadow_strength = 0.4
+shader_parameter/highlight_strength = 0.1
+shader_parameter/highlight_color = Color(1, 1, 1, 1)
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_eaqkw"]
+material = SubResource("ShaderMaterial_fb6n6")
+size = Vector2(11.325, 6.225)
+
+[node name="ProjectRendering (Upscale via Project Settings)" type="Node3D"]
+editor_description = "Upscale via Project Settings, check out my video: https://youtu.be/7bH-nfkV2OU"
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_vp1m0")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.99157196, 0.12955712, 0, -0.12955712, 0.99157196, -0.07470009, 0.4012866, 1.3958132)
+projection = 1
+size = 5.625
+
+[node name="outline_shader (doesnt pixelate!)" type="MeshInstance3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06194237, -0.6494144)
+mesh = SubResource("QuadMesh_eaqkw")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.9389142, 0.1544083, -0.30756825, 0, 0.89370054, 0.448664, 0.34415135, -0.421257, 0.8391081, -1.011162, 1.0480375, 2.2568464)
+light_energy = 0.531
+
+[node name="low_poly_mill" parent="." instance=ExtResource("2_yvm2k")]
+transform = Transform3D(0.77852815, 0, 0.62760985, 0, 1, 0, -0.62760985, 0, 0.77852815, 0, 0, 0)

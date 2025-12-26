@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=3 uid="uid://bcxogikjyhwt6"]
+
+[ext_resource type="PackedScene" uid="uid://cfmxvu6nib1p2" path="res://3d/low_poly_mill.tscn" id="1_cdvpq"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_cdvpq"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_b1g2n"]
+sky_material = SubResource("ProceduralSkyMaterial_cdvpq")
+
+[sub_resource type="Environment" id="Environment_qqmtg"]
+background_mode = 2
+sky = SubResource("Sky_b1g2n")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="ViewPorts" type="Node3D"]
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+stretch_shrink = 8
+
+[node name="World" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(144, 81)
+render_target_update_mode = 4
+
+[node name="low_poly_mill" parent="SubViewportContainer/World" instance=ExtResource("1_cdvpq")]
+transform = Transform3D(1.5570561, 0, 1.2552196, 0, 2, 0, -1.2552196, 0, 1.5570561, 0, 0, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/World"]
+transform = Transform3D(0.7298402, 0.30671465, -0.6109495, -2.7983631e-08, 0.89370054, 0.44866398, 0.6836178, -0.32745302, 0.65225863, -1.011162, 1.0480375, 2.2568464)
+light_energy = 0.847
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/World"]
+transform = Transform3D(1, 0, 0, 0, 0.99157196, 0.12955712, 0, -0.12955712, 0.99157196, -0.07470009, 0.4012866, 2.146101)
+projection = 1
+size = 5.625
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer/World"]
+environment = SubResource("Environment_qqmtg")

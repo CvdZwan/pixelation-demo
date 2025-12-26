@@ -1,0 +1,46 @@
+[gd_scene load_steps=8 format=3 uid="uid://cb6f1ehgco463"]
+
+[ext_resource type="Shader" uid="uid://jtc6mieb7mii" path="res://shaders/camera_overlay_pixel_effect.gdshader" id="1_dvxbh"]
+[ext_resource type="PackedScene" uid="uid://cfmxvu6nib1p2" path="res://3d/low_poly_mill.tscn" id="2_jug86"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l407h"]
+render_priority = 0
+shader = ExtResource("1_dvxbh")
+shader_parameter/pixel_size = 8
+
+[sub_resource type="QuadMesh" id="QuadMesh_ncl2g"]
+material = SubResource("ShaderMaterial_l407h")
+size = Vector2(11.335, 7.195)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_8ptfj"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_yvm2k"]
+sky_material = SubResource("ProceduralSkyMaterial_8ptfj")
+
+[sub_resource type="Environment" id="Environment_qsgu0"]
+background_mode = 2
+sky = SubResource("Sky_yvm2k")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="Cemra_mesh" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.99157196, 0.12955712, 0, -0.12955712, 0.99157196, -0.07470009, 0.4012866, 2.146101)
+projection = 1
+size = 5.625
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00092202425, -0.6414412)
+mesh = SubResource("QuadMesh_ncl2g")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.9389142, 0.1544083, -0.30756825, 0, 0.89370054, 0.448664, 0.34415135, -0.421257, 0.8391081, -1.011162, 1.0480375, 2.2568464)
+
+[node name="low_poly_mill" parent="." instance=ExtResource("2_jug86")]
+transform = Transform3D(1.5570561, 0, 1.2552196, 0, 2, 0, -1.2552196, 0, 1.5570561, 0, 0, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_qsgu0")

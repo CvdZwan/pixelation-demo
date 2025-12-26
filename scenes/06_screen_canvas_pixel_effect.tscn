@@ -1,0 +1,47 @@
+[gd_scene load_steps=7 format=3 uid="uid://d4bfqryklnbw8"]
+
+[ext_resource type="Shader" uid="uid://dngc0ts326ob5" path="res://shaders/canvas_screen_pixel_effect.gdshader" id="1_lutkd"]
+[ext_resource type="PackedScene" uid="uid://cfmxvu6nib1p2" path="res://3d/low_poly_mill.tscn" id="2_4jrsk"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_smwjr"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_y8gav"]
+sky_material = SubResource("ProceduralSkyMaterial_smwjr")
+
+[sub_resource type="Environment" id="Environment_petut"]
+background_mode = 2
+sky = SubResource("Sky_y8gav")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0gwhb"]
+shader = ExtResource("1_lutkd")
+shader_parameter/pixel_resolution = Vector2(320, 180)
+
+[node name="ColorRectCanvas" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_petut")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.9389142, 0.1544083, -0.30756825, 0, 0.89370054, 0.448664, 0.34415135, -0.421257, 0.8391081, -1.011162, 1.0480375, 2.2568464)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_0gwhb")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.99157196, 0.12955712, 0, -0.12955712, 0.99157196, -0.07470009, 0.4012866, 1.3958132)
+projection = 1
+size = 5.625
+
+[node name="low_poly_mill" parent="." instance=ExtResource("2_4jrsk")]
+transform = Transform3D(1.5570561, 0, 1.2552196, 0, 2, 0, -1.2552196, 0, 1.5570561, 0, 0, 0)
